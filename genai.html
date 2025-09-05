@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Gen AI Page</title>
+  <style>
+    :root {
+      --bg: #f9f9f9;
+      --tile: #e0e0e0;
+      --text: #111111;
+      --present: #fbc02d;
+      --correct: #388e3c;
+      --absent: #c0c0c0;
+      --key: #d6d6d6;
+      --key-text: #111111;
+      --accent: #0288d1;
+    }
+    * { box-sizing: border-box; }
+    body { margin: 0; background: var(--bg); color: var(--text); font-family: system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial; display: flex; flex-direction: column; min-height: 100vh; padding: 24px; }
+    main { flex: 1; display: flex; flex-direction: column; align-items: center; }
+    header { display: flex; align-items: center; gap: 12px; width: 100%; }
+    h1 { font-size: 22px; letter-spacing: 2px; margin: 0; text-transform: uppercase; }
+    .spacer { flex: 1; }
+    button.icon { background: transparent; border: 1px solid #c0c0c0; color: var(--text); border-radius: 10px; padding: 6px 10px; cursor: pointer; }
+    button.icon:hover{ border-color: var(--accent); }
+
+    .board { margin-top: 16px; display: grid; justify-content: center; gap: 8px; }
+    .row { display: grid; gap: 8px; }
+    .tile { width: 56px; height: 56px; border: 2px solid #c0c0c0; border-radius: 4px; display: grid; place-items: center; font-weight: 700; font-size: 24px; text-transform: uppercase; transition: transform .15s ease, background-color .2s ease, border-color .2s ease; background: transparent; }
+    .tile.filled { border-color: #a0a0a0; }
+    .tile.flip { animation: flip .55s ease; }
+    @keyframes flip { 0% { transform: rotateX(0deg); } 50% { transform: rotateX(90deg); } 100% { transform: rotateX(0deg); } }
+    .tile.correct { background: var(--correct); border-color: var(--correct); color: white; }
+    .tile.present { background: var(--present); border-color: var(--present); color: white; }
+    .tile.absent  { background: var(--absent);  border-color: var(--absent);  color: white; }
+
+    .keyboard { margin-top: 18px; display: grid; gap: 8px; user-select: none; }
+    .keyrow { display: flex; gap: 6px; justify-content: center; }
+    .key { background: var(--key); color: var(--key-text); border: none; border-radius: 6px; padding: 12px 10px; min-width: 36px; font-weight: 600; cursor: pointer; }
+    .key.sm { min-width: 52px; }
+    .key.correct { background: var(--correct); }
+    .key.present { background: var(--present); }
+    .key.absent  { background: var(--absent); }
+
+    .toast { position: fixed; top: 12px; left: 50%; transform: translateX(-50%); background: #e0e0e0; padding: 10px 14px; border-radius: 10px; border: 1px solid #c0c0c0; opacity: 0; pointer-events: none; transition: opacity .2s ease; color: var(--text); }
+    .toast.show { opacity: 1; }
+
+    .controls { margin-top: 8px; display: flex; gap: 10px; justify-content: center; align-items: center; }
+    .controls select, .controls input[type="text"] { background: #ffffff; color: var(--text); border: 1px solid #c0c0c0; border-radius: 8px; padding: 8px 10px; }
+    .controls button { background: #ffffff; color: var(--text); border: 1px solid #c0c0c0; padding: 8px 12px; border-radius: 8px; cursor: pointer; }
+    .controls button:hover { border-color: var(--accent); }
+
+    footer { opacity: .7; font-size: 12px; margin-top: 16px; text-align: center; }
+
+    .prompt-list { margin-top: 16px; text-align: left; max-width: 600px; }
+    .prompt-list h3 { margin-bottom: 8px; font-size: 14px; text-transform: uppercase; }
+    .prompt-list ul { padding-left: 20px; font-size: 12px; line-height: 1.4; }
+
+    nav { margin-top: 16px; width: 100%; display: flex; justify-content: center; gap: 12px; background: #e0e0e0; padding: 8px 0; border-radius: 8px; }
+    nav a { color: var(--text); text-decoration: none; font-weight: 600; }
+    nav a:hover { color: var(--accent); }
+  </style>
+</head>
+<body>
+  <main>
+    <header>
+      <h1>Skill/Hobby Wordle</h1>
+      <div class="spacer"></div>
+      <button class="icon" id="resetBtn" title="New game">↻</button>
+    </header>
+
+    <div id="board" class="board"></div>
+    <div class="keyboard" id="keyboard"></div>
+
+    <div class="controls" id="controls" style="display:none">
+      <label>Choose word:
+        <select id="wordSelect"></select>
+      </label>
+      <label>or type custom:
+        <input type="text" id="customWord" placeholder="letters only" />
+      </label>
+      <button id="applyWord">Apply</button>
+    </div>
+
+    <div class="toast" id="toast"></div>
+
+    <footer>
+      6 attempts • Green = correct spot • Yellow = in word, wrong spot • Gray = not in word
+    </footer>
+
+    <div class="prompt-list">
+      <h3>Prompt history</h3>
+      <ul>
+        <li>Write a basic CSS and HTML and Javascript. I want it to look like wordle. The user will guess which technical skill or a hobby of mine is the world. Then the user gets 6 attempts to guess it.</li>
+        <li>The word bank will include soccer, python, github, tensor, and SQLite. On the bottom of the page include a small list of prompts I've given you with each prompt being a separate message</li>
+        <li>the prompt history should be word for word my inputs (including this one). Also, include this nav bar on the bottom: &lt;nav &gt;
+        &lt;a href="index.html"&gt;Home&lt;/a&gt;
+        &lt;a href="qualifications.html"&gt;Qualifications&lt;/a&gt;
+        &lt;a href="portfolio.html"&gt;Portfolio&lt;/a&gt;
+        &lt;a href="service.html"&gt;Service&lt;/a&gt;
+        &lt;a href="genai.html"&gt;Gen AI&lt;/a&gt;
+    &lt;/nav&gt;. You can modify the CSS to make sure it's on the bottom</li>
+        <li>Make it light themed. Also no need for the settings button in the top right.</li>
+        <li>The title for the page should be Gen AI Page</li>
+      </ul>
+    </div>
+
+    <nav>
+        <a href="index.html">Home</a>
+        <a href="qualifications.html">Qualifications</a>
+        <a href="portfolio.html">Portfolio</a>
+        <a href="service.html">Service</a>
+        <a href="genai.html">Gen AI</a>
+    </nav>
+  </main>
+
+  <script>
+    const WORDS = ['soccer','python','github','tensor','sqlite'];
+
+    let target = '';
+    let attempts = 6;
+    let currentRow = 0;
+    let currentCol = 0;
+    let grid = [];
+
+    const boardEl = document.getElementById('board');
+    const keyboardEl = document.getElementById('keyboard');
+    const toastEl = document.getElementById('toast');
+    const controlsEl = document.getElementById('controls');
+    const wordSelectEl = document.getElementById('wordSelect');
+    const customWordEl = document.getElementById('customWord');
+
+    function init(word) {
+      target = (word || WORDS[Math.floor(Math.random()*WORDS.length)]).toLowerCase();
+      attempts = 6; currentRow = 0; currentCol = 0;
+      grid = Array.from({length: attempts}, () => Array(target.length).fill(''));
+      renderBoard();
+      renderKeyboard();
+      hideToast(0);
+    }
+
+    function renderBoard() {
+      boardEl.innerHTML = '';
+      boardEl.style.gridTemplateRows = `repeat(${attempts}, 1fr)`;
+      for (let r = 0; r < attempts; r++) {
+        const row = document.createElement('div');
+        row.className = 'row';
+        row.style.gridTemplateColumns = `repeat(${target.length}, 56px)`;
+        for (let c = 0; c < target.length; c++) {
+          const tile = document.createElement('div');
+          tile.className = 'tile' + (grid[r][c] ? ' filled' : '');
+          tile.textContent = grid[r][c];
+          row.appendChild(tile);
+        }
+        boardEl.appendChild(row);
+      }
+    }
+
+    const KEY_LAYOUT = [
+      [...'qwertyuiop'],
+      [...'asdfghjkl'],
+      ['Enter', ...'zxcvbnm', 'Backspace']
+    ];
+
+    function renderKeyboard() {
+      keyboardEl.innerHTML = '';
+      KEY_LAYOUT.forEach((row) => {
+        const rowEl = document.createElement('div');
+        rowEl.className = 'keyrow';
+        row.forEach(k => {
+          const btn = document.createElement('button');
+          btn.className = 'key' + (k.length > 1 ? ' sm' : '');
+          btn.textContent = k.length > 1 ? (k === 'Backspace' ? '⌫' : k) : k.toUpperCase();
+          btn.dataset.key = k;
+          btn.addEventListener('click', () => onKey(k));
+          rowEl.appendChild(btn);
+        });
+        keyboardEl.appendChild(rowEl);
+      });
+    }
+
+    function onKey(k) {
+      if (isGameOver()) return;
+      if (k === 'Enter') return submitGuess();
+      if (k === 'Backspace') return backspace();
+      if (/^[a-z]$/i.test(k)) typeLetter(k.toLowerCase());
+    }
+
+    window.addEventListener('keydown', (e) => { const k = e.key; if (k === 'Enter' || k === 'Backspace' || /^[a-z]$/i.test(k)) { e.preventDefault(); onKey(k); } });
+
+    function typeLetter(ch) { if (currentCol >= target.length) return; grid[currentRow][currentCol] = ch; currentCol++; renderBoard(); }
+    function backspace() { if (currentCol === 0) return; currentCol--; grid[currentRow][currentCol] = ''; renderBoard(); }
+
+    function submitGuess() {
+      if (currentCol < target.length) return showToast(`Need ${target.length} letters`);
+      const guess = grid[currentRow].join('');
+      const result = evaluateGuess(guess, target);
+      flipReveal(currentRow, result);
+      updateKeyboardColors(result);
+      if (result.every(x => x.state === 'correct')) { showToast(`You got it in ${currentRow+1}! 🎉`); }
+      else if (currentRow === attempts - 1) { showToast(`Out of tries. The word was "${target.toUpperCase()}"`); }
+      else { currentRow++; currentCol = 0; }
+    }
+
+    function evaluateGuess(guess, target) {
+      const res = Array(target.length).fill(null).map(_ => ({ letter: '', state: 'absent' }));
+      const targetCounts = {};
+      for (let i=0;i<target.length;i++) { const t = target[i]; targetCounts[t] = (targetCounts[t]||0)+1; }
+      for (let i=0;i<target.length;i++) { const g = guess[i]; res[i].letter = g; if (g === target[i]) { res[i].state = 'correct'; targetCounts[g]--; } }
+      for (let i=0;i<target.length;i++) { const g = guess[i]; if (res[i].state === 'correct') continue; if (targetCounts[g] > 0) { res[i].state = 'present'; targetCounts[g]--; } else { res[i].state = 'absent'; } }
+      return res;
+    }
+
+    function flipReveal(rowIndex, result) { const rowEl = boardEl.children[rowIndex]; [...rowEl.children].forEach((tile, i) => { setTimeout(() => { tile.classList.add('flip'); setTimeout(() => { tile.classList.remove('flip'); tile.classList.add(result[i].state); }, 275); }, i * 200); }); }
+
+    function updateKeyboardColors(result) { result.forEach(({letter, state}) => { const btn = keyboardEl.querySelector(`[data-key="${letter}"]`); if (!btn) return; const priority = { correct: 3, present: 2, absent: 1 }; const current = btn.dataset.state || ''; if (!current || priority[state] > priority[current]) { btn.dataset.state = state; btn.classList.remove('correct','present','absent'); btn.classList.add(state); } }); }
+
+    function isGameOver() { for (let r=0;r<attempts;r++) { const row = boardEl.children[r]; if (!row) continue; const win = [...row.children].every(tile => tile.classList.contains('correct')); if (win) return true; } return currentRow >= attempts; }
+
+    function showToast(msg) { toastEl.textContent = msg; toastEl.classList.add('show'); clearTimeout(showToast._t); showToast._t = setTimeout(()=>hideToast(), 1800); }
+    function hideToast(dur=200) { toastEl.classList.remove('show'); if (dur===0) { toastEl.style.transition='none'; toastEl.offsetHeight; toastEl.style.transition='opacity .2s ease'; } }
+
+    document.getElementById('applyWord').addEventListener('click', () => { const custom = customWordEl.value.trim().toLowerCase().replace(/[^a-z]/g,''); const value = custom || wordSelectEl.value; if (!value) return showToast('Pick or type a word'); init(value); controlsEl.style.display = 'none'; customWordEl.value = ''; });
+    document.getElementById('resetBtn').addEventListener('click', () => init());
+
+    function populateSelect() { wordSelectEl.innerHTML = ''; WORDS.slice().sort().forEach(w => { const opt = document.createElement('option'); opt.value = w; opt.textContent = w; wordSelectEl.appendChild(opt); }); }
+
+    init();
+  </script>
+</body>
+</html>
