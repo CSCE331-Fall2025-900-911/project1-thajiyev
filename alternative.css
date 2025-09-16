@@ -1,0 +1,45 @@
+.image-container {
+  display: flex;
+  align-items: center;
+  padding: 10px;
+  border: 1px solid #ccc;
+  width: 600px;
+  height: 120px;
+}
+
+.image-container img {
+  width: 150px;
+  height: auto;
+  object-fit: cover;
+  border-radius: 8px;
+}
+
+.gallery {       
+  display: flex;
+  flex-direction: column; 
+  gap: 10px;         
+}
+
+.boxes {
+  display: flex;
+  width: 100%;
+  border: 1px solid black; 
+}
+
+.box {
+  flex: 1; 
+  text-align: center;
+  padding: 10px 0;
+  cursor: pointer;
+  border-right: 1px solid #000; 
+}
+
+.style-button {
+  position: fixed;
+  bottom: 10px;
+  left: 50%;
+  transform: translateX(-50%);
+  padding: 10px 30px;
+  border-radius: 50px;
+  cursor: pointer;
+}

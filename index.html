@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Personal Website</title>
-  <link rel="stylesheet" href="main.css">
+  <link id="usedStylesheet" rel="stylesheet" href="main.css">
 </head>
 <body>
 
@@ -19,6 +19,8 @@
       <div class="box" onclick="location.href='service.html'">Service</div>
       <div class="box" onclick="location.href='genai.html'">AI Page</div>
     </section>
+
+    <br>
 
 
     <section class="gallery">
@@ -41,5 +43,7 @@
     </section>
   </main>
 
+  <button type="button" class="style-button" onclick="toggleStyleSheet()">Change Style</button>
+<script src="script.js"></script>
 </body>
 </html>
