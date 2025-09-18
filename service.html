@@ -1,28 +1,32 @@
 <html>
 <head>
     <title>Service</title>
-    <link rel="stylesheet" type="text/css" href="main.css">
+    <link id="usedStylesheet" rel="stylesheet" href="main.css">
 </head>
 <body>  
-    <header>
+    <header class="hidable-h1">
         <h1>Service</h1>
     </header>
 
-    <div class="topic-boxes">
-        <div class="topic-box">
+    <br>
+    <br>
+    <br>
+
+    <div class="event-boxes">
+        <div class="event-box">
             <img src="tutoring.png" alt="Title 1">
             <h2>Tutoring</h2>
-            <p>I volunteered tutoring math at the Katy Mathnasium. Completed over 100 hours of volunteering.</p>
+            <p>I volunteered tutoring math at the Katy <a href="https://www.mathnasium.com/">Mathnasium</a>. Completed over 100 hours of volunteering.</p>
         </div>
-        <div class="topic-box">
+        <div class="event-box">
             <img src="foodbank.png" alt="Title 2">
             <h2>Food Bank</h2>
-            <p>Worked as a volunteer at the Houston Food Bank.</p>
+            <p>Worked as a volunteer at the <a href="https://www.houstonfoodbank.org/">Houston Food Bank</a>.</p>
         </div>
-        <div class="topic-box">
+        <div class="event-box">
             <img src="new.png" alt="Title 3">
             <h2>Future Plans</h2>
-            <p>Big Event for 2026</p>
+            <p>I plan to attend the <a href="https://bigevent.tamu.edu/">Big Event for 2026</a>. It's a big event for Texas A&M student where they help out their community.</p>
         </div>
     </div>
     <nav>
@@ -32,6 +36,8 @@
         <a href="service.html">Service</a>
         <a href="genai.html">Gen AI</a>
     </nav>
+    <button type="button" class="style-button" onclick="toggleStyleSheet()">Change Style</button>
+<script src="script.js"></script>
 </body>
 
 </html>

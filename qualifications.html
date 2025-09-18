@@ -1,11 +1,11 @@
 <html>
 <head>
     <title>Qualifications</title>
-    <link rel="stylesheet" type="text/css" href="main.css">
+    <link id="usedStylesheet" rel="stylesheet" href="main.css">
 </head>
-<body>  
+<body class="qualifications-body">  
     <header>
-        <h1>Qualifications</h1>
+        <h1 class="hidable-h1">Qualifications</h1>
     </header>
     <div class="top-links">
         <button onclick="window.location.href='https://docs.google.com/document/d/1vflR3E9fE-4h2VAYwdEaclHPnpWPGggqLrO_PxxzkZQ/edit?usp=sharing'">Resume</button>
@@ -22,16 +22,16 @@
     <div class="topic-box">
         <img src="ml.png">
         <h2>Machine Learning</h2>
-        <p>I initially learned about machine learning through online courses on Codecademy and personal projects. Once I got to college, I joined student organizations that helped me learn more about artificial intelligence, and I also took CSCE 421, a machine learning course that taught me the intuition and mathematics behind many popular models. This past summer, I worked as a data analyst intern at AT&T, where I gained additional experience with unsupervised learning.</p>
+        <p>I initially learned about machine learning through online courses on Codecademy and personal projects. Once I got to college, I joined student organizations that helped me learn more about artificial intelligence, and I also took CSCE 421, a machine learning course that taught me the intuition and mathematics behind many popular models. This past summer, I worked as a data analyst intern at <a href="https://www.att.com/">AT&T</a>, where I gained additional experience with unsupervised learning.</p>
     </div>
     <div class="topic-box">
         <img src="webdev.png">
         <h2>Web Development</h2>
-        <p>I am part of Texas A&M's Formula SAE Electric Vehicle team, a student organization that competes against other colleges across the U.S. in building Formula One–style cars. As a member of the software team, I gained extensive experience using React to build websites for the team. This included a telemetry dashboard that visualized live data from the car’s sensors, as well as a custom recruitment website where prospective students could submit applications, schedule interviews, and the team could manage final decisions. For the telemetry website, I developed custom widgets to help visualize trends in the car’s data and also contributed to the backend, where I learned more about WebSockets and Redis. For the recruitment website, I focused on building the frontend components. In addition, I gained experience with Flask by creating personal projects, such as the Fantasy Playbook featured in my portfolio, and further strengthened these skills during my internship at AT&T.</p>
+        <p>I am part of <a href="https://www.tamuformulaelectric.com/">Texas A&M's Formula SAE Electric Vehicle</a> team, a student organization that competes against other colleges across the U.S. in building Formula One–style cars. As a member of the software team, I gained extensive experience using React to build websites for the team. This included a telemetry dashboard that visualized live data from the car’s sensors, as well as a custom recruitment website where prospective students could submit applications, schedule interviews, and the team could manage final decisions. For the telemetry website, I developed custom widgets to help visualize trends in the car’s data and also contributed to the backend, where I learned more about WebSockets and Redis. For the recruitment website, I focused on building the frontend components. In addition, I gained experience with Flask by creating personal projects, such as the Fantasy Playbook featured in my portfolio, and further strengthened these skills during my internship at AT&T.</p>
     </div>
 </div>
 
-<nav>
+    <nav>
         <a href="index.html">Home</a>
         <a href="qualifications.html">Qualifications</a>
         <a href="portfolio.html">Portfolio</a>
@@ -39,5 +39,6 @@
         <a href="genai.html">Gen AI</a>
     </nav>
 
-
+<button type="button" class="style-button" onclick="toggleStyleSheet()">Change Style</button>
+<script src="script.js"></script>
 </html>

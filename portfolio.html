@@ -4,29 +4,50 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Portfolio</title>
-  <link rel="stylesheet" href="main.css">
+  <link id="usedStylesheet" rel="stylesheet" href="main.css">
 </head>
 <body>
 
-  <h1>Projects</h1>
+  <h1 class="hidable-h1">Projects</h1>
+
+  <br>
+  <br>
+  <div class="project-boxes">
+    <div class="project">
+      <img src="football.png" alt="Project Image">
+      <div class="project-content">
+      <h2>Fantasy Playbook</h2>
+      <p>A dashboard to analyze the world of fantasy football through interactive graphs, custom projections and a lot more!</p>
+      <button onclick="window.location.href='https://github.com/THajiyev/Fantasy-Playbook'">See on GitHub</button>
+      </div>
+    </div>
+
+    <div class="project">
+      <img src="soccer.png" alt="Project Image">
+      <div class="project-content">
+      <h2>xG Calculator</h2>
+      <p>A machine learning model to predict the probability of scoring with any shot taken from anywhere on the field.</p>
+      <button onclick="window.location.href='https://github.com/THajiyev/xG-Calculator'">See on GitHub</button>
+      </div>
+    </div>
+
+    <div class="project">
+      <img src="formula.jpg" alt="Project Image">
+      <div class="project-content">
+      <h2>Formula SAE Recruitment Website</h2>
+      <p>A recruitment platform that allows candidates to submit applications while enabling teams to manage the interview process, make decisions, and schedule interviews.</p>
+      <button onclick="window.location.href='https://apply.tamusae.org/'">See website</button>
+  </div></div>
 
   <div class="project">
-    <img src="football.png" alt="Project Image">
-    <div class="project-content">
-    <h2>Fantasy Playbook</h2>
-    <p>A dashboard to analyze the world of fantasy football through interactive graphs, custom projections and a lot more!</p>
-    <button onclick="window.location.href='https://github.com/THajiyev/Fantasy-Playbook'">See on GitHub</button>
-    </div>
-  </div>
+      <img src="frc.png" alt="Project Image">
+      <div class="project-content">
+      <h2>Robotics Head-to-head record review</h2>
+      <p>A website to check your team's head-to-head record against any other team in the world.</p>
+      <button onclick="window.location.href='https://thajiyev.pythonanywhere.com/'">See website</button>
+  </div></div>
 
-  <div class="project">
-    <img src="soccer.png" alt="Project Image">
-    <div class="project-content">
-    <h2>xG Calculator</h2>
-    <p>A machine learning model to predict the probability of scoring with any shot taken from anywhere on the field.</p>
-    <button onclick="window.location.href='https://github.com/THajiyev/xG-Calculator'">See on GitHub</button>
-    </div>
-  </div>
+  
 
 </body>
 <nav>
@@ -36,4 +57,7 @@
         <a href="service.html">Service</a>
         <a href="genai.html">Gen AI</a>
     </nav>
+
+    <button type="button" class="style-button" onclick="toggleStyleSheet()">Change Style</button>
+<script src="script.js"></script>
 </html>
